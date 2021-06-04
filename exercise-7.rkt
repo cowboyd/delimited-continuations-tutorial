@@ -5,11 +5,6 @@
 
 (data Tree (Empty Node))
 
-(define tree1 (Node (Node (Empty) 1 (Empty)) 2 (Node (Empty) 3 (Empty))))
-
-;;Node (Empty, 1, Node (Empty, 2, Node (Empty, 3, Empty))) ;;
-(define tree2 (Node (Empty) 1 (Node (Empty) 2 (Node (Empty) 3 (Empty)))))
-
 (data Result (Next Done))
 
 (define (yield value) (shift k (Next value k)))
@@ -23,14 +18,11 @@
   (yield value)
   (walk right)]))
 
-(define (add-nodes tree)
-  (letrec ((loop (function
-                  [(Done) 0]
-                  [(Next value k) (+ value (loop (k)))])))
-    (loop (start tree))))
-
-;;(add-nodes tree1)
-
+;; Compare if two trees have the same sequence of values
+; Our strategy is to get the next value from the two trees at
+; the same time. If there is any mismatch, we immeditaley "return"
+; where the return continuation is passed down and corresponds to
+; the top-level reset.
 (define (same-fringe t1 t2)
   (letrec ((loop (lambda (n1 n2 return)
                    (cond
@@ -44,5 +36,7 @@
                      [else (return #f)]))))
     (reset (shift k (loop (start t1) (start t2) k)))))
 
+(define tree1 (Node (Node (Empty) 1 (Empty)) 2 (Node (Empty) 3 (Empty))))
+(define tree2 (Node (Empty) 1 (Node (Empty) 2 (Node (Empty) 3 (Empty)))))
 
 (same-fringe tree1 tree2)
