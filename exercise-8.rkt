@@ -15,6 +15,7 @@
 ;; this function takes multiple arguments and applies them
 ; successively to the continuations captured by the
 ; template function
+; e.g. (hello "Johnny" 5) = "hello Johnny 5!"
 (define (hello robot num)
   (((f) robot) num))
 
