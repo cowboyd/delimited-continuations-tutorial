@@ -66,6 +66,10 @@ Would be written in racket as:
 - [exercise 2](./exercise-2.md)
 - [exercise 3](./exercise-3.md)
 - [exercise 4](./exercise-4.rkt)
+- [exercise 5](./exercise-5.rkt)
+- [exercise 6](./exercise-6.rkt)
+- [exercise 7](./exercise-7.rkt)
+- [exercise 8](./exercise-8.rkt)
 
 [racket]: https://racket-lang.org
 [racket-algebraic]: https://docs.racket-lang.org/algebraic/ref.html
