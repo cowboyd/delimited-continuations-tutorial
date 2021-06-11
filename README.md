@@ -70,6 +70,7 @@ Would be written in racket as:
 - [exercise 6](./exercise-6.rkt)
 - [exercise 7](./exercise-7.rkt)
 - [exercise 8](./exercise-8.rkt)
+- [exercise 9](./exercise-9.rkt)
 
 [racket]: https://racket-lang.org
 [racket-algebraic]: https://docs.racket-lang.org/algebraic/ref.html
