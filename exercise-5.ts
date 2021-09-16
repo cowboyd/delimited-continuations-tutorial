@@ -1,4 +1,4 @@
-import { reset, shift, reduce, Prog } from './src';
+import { reset, shift, reduce } from './src';
 
 // ;; 5.1
 // ;; Takes the argument, add 12, then multiplies by 5
@@ -6,15 +6,14 @@ import { reset, shift, reduce, Prog } from './src';
 // (let ((k (reset (* 5 (+ (shift k k) (* 3 4))))))
 //  (k 2))
 
-reduce(function*() {
-
-  let k: any = yield reset(function*(): Prog {
-    let $: any = yield shift(function*(k) { return k; });
+let k = reduce(function*() {
+  return yield reset(function*() {
+    let $ =  yield shift(function*(k) { return k; });
     return 5 * ($ + 3 * 4);
   });
-
-  console.log(k(2));
 });
+
+console.log(k(2));
 
 
 // ;; 5.2

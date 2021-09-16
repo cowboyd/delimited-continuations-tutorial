@@ -1,23 +1,18 @@
-import { reduce, shift, reset, Prog } from './src';
+import { reduce, shift, reset } from './src';
 
+let t = () => reduce(function*() {
+  return yield reset(function*() {
+    let one = yield shift(function*(k) { return k; });
+    let two = yield shift(function*(k) { return k; });
+    return `hello ${one} ${two}!`;
+  });
+});
 
+function hello(robot: string, num: number): string {
+  return t()(robot)(num);
+}
 
-const capture = shift(function*(k) { return k; })
-
-
-reduce(function*() {
-  function* t(): Prog {
-    return yield reset(function*() {
-      return `hello ${yield capture} ${yield capture}!`;
-    });
-  }
-
-  function* hello(robot: string, num: number) {
-    return (yield* t())(robot)(num);
-  }
-
-  console.log(yield* hello("Johnny", 5));
-})
+console.log(hello("Johnny", 5));
 
 // ;; this template function `f` has two "holes" that we fill in
 // ; with captured continuations. The first hole takes a string

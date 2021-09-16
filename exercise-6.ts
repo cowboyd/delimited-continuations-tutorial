@@ -8,13 +8,12 @@ function* id([first, ...rest]: unknown[]): any {
   }
 }
 
-reduce(function*() {
-  let k = yield reset(function*() {
+let k = reduce(function*() {
+  return yield reset(function*() {
     return yield* id([1,2,3]);
   });
-
-  console.log(k([4,5,6]));
 })
+console.log(k([4,5,6]));
 
 
 // (define (id lst) (match lst

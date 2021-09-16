@@ -34,17 +34,21 @@ reduce(function* () {
     })
   }
 
-  function* tick(): Prog {
+  function* set(value: number): Prog {
     return yield shift(function*(k) {
-      return (state: number) => k(undefined)(state + 1);
+      return () => k()(value)
     })
+  }
+
+  function* tick(): Prog {
+    return yield* set((yield* get()) + 1);
   }
 
   function* runState(thunk: () => Prog): Prog {
     return ((yield reset(function*() {
       let result = yield* thunk();
       return () => result;
-    })) as unknown as Function)(0);
+    })))(0);
   }
 
   yield* runState(function*() {
@@ -52,10 +56,12 @@ reduce(function* () {
     yield* tick();
     let a = yield* get();
     yield* tick();
-    return yield* tick();
+
+    console.log((yield* get()) - a);
   });
 
   yield* runState(function*() {
+
     yield* tick();
     let a = yield* get();
 

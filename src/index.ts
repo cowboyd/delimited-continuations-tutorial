@@ -24,21 +24,18 @@ export function shift(block: (k: K) => Prog): Shift {
   return { type: 'shift', block };
 }
 
-export function reduce(block: () => Prog, $return: K = () => {}, value?: unknown): any {
+export function reduce(block: () => Prog, done: K = v => v, value?: unknown): any {
   let prog = block();
   let next = prog.next(value);
   if (next.done) {
-    $return(next.value);
-    return next.value;
+    return done(next.value);
   } else {
     let control = next.value;
     if (control.type === 'reset') {
-      return reduce(control.block, v => reduce(() => prog, $return, v));
+      return reduce(control.block, v => reduce(() => prog, done, v));
     } else {
-      // k continues reducing the generator that yielded to the shift
-      let k: K = value => reduce(() => prog, () => {}, value);
-      // reduce shift block and return control to closest reset
-      return reduce(() => control.block(k), $return);
+      let k: K = value => reduce(() => prog, v => v, value);
+      return reduce(() => control.block(k), done);
     }
   }
 }
