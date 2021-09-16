@@ -1,0 +1,28 @@
+{
+  "name": "delimited-continuations",
+  "version": "1.0.0",
+  "description": "Delimited Continuations for JavaScript",
+  "main": "dist-cjs/index.js",
+  "scripts": {
+    "test": "ts-node -r mocha/register test/**/*.test.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cowboyd/delimited-continuations-tutorial.git"
+  },
+  "author": "Charles Lowell <cowboyd@frontside.io>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cowboyd/delimited-continuations-tutorial/issues"
+  },
+  "homepage": "https://github.com/cowboyd/delimited-continuations-tutorial#readme",
+  "devDependencies": {
+    "@frontside/eslint-config": "^2.1.0",
+    "@frontside/typescript": "^2.0.0",
+    "@types/mocha": "^9.0.0",
+    "assert-ts": "^0.3.3",
+    "mocha": "^9.1.1",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.2"
+  }
+}

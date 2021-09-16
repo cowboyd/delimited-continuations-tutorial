@@ -1,0 +1,11 @@
+{
+  "extends": "@frontside/tsconfig",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [
+    "test/**/*.ts",
+    "src/**/*.ts",
+    "*.ts"
+  ]
+}
