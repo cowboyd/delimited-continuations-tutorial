@@ -45,10 +45,10 @@ reduce(function* () {
   }
 
   function* runState(thunk: () => Prog): Prog {
-    return ((yield reset(function*() {
+    return (yield reset(function*() {
       let result = yield* thunk();
       return () => result;
-    })))(0);
+    }))(0);
   }
 
   yield* runState(function*() {
