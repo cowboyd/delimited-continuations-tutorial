@@ -58,7 +58,6 @@ export function createFuture<T>(): NewFuture<T> {
         consume
       },
       produce,
-      consume,
       resolve: (value: T) => produce({ state: 'completed', value }),
       reject: (error: Error) => produce({ state: 'errored', error }),
       halt: () => produce({ state: 'halted' })
