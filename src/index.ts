@@ -1,6 +1,8 @@
-export type K = (value: any) => any;
+export type K = (value?: any) => any;
 
-export type Prog = Iterator<Control, any, any> & Iterable<Control>;
+export interface Prog extends Iterator<Control, any, any> {
+  [Symbol.iterator](): Iterator<Control, any, any>;
+}
 
 export interface Shift {
   type: 'shift';
@@ -31,10 +33,9 @@ export function reduce(block: () => Prog, $return: K = () => {}, value?: unknown
   } else {
     let control = next.value;
     if (control.type === 'reset') {
-      let returnTo: K = v => reduce(() => prog, $return, v);
-      return reduce(control.block, returnTo);
+      return reduce(control.block, v => reduce(() => prog, $return, v));
     } else {
-      // continues reducing the generator from the shift
+      // k continues reducing the generator that yielded to the shift
       let k: K = value => reduce(() => prog, () => {}, value);
       // reduce shift block and return control to closest reset
       return reduce(() => control.block(k), $return);
