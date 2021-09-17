@@ -1,16 +1,21 @@
 import { reduce, reset, shift, Prog } from './src';
 
 let component = reduce(function*() {
+
+
+
   return yield* render(function*() {
-    let [clicks, setClicks] = yield* useCounter();
+    let [clicks, incrementClicks] = yield* useCounter();
     let [strokes, setStrokes] = yield* useState(0);
     return {
       clicks,
       strokes,
-      onClick: () => setClicks(clicks + 1),
+      onClick: () => incrementClicks(),
       onKeydown: () => setStrokes(strokes + 1)
     };
   })
+
+
 })
 
 console.log(component.
@@ -23,7 +28,7 @@ console.log(component.
 function* useState<T>(initial: T): Prog {
   return yield shift(function*(k) {
     return (states: States) => {
-      let current = states.getOrCreate(initial);
+      let current = states.alloc(initial);
       return k([current.get(), current.set])(states);
     }
   });
@@ -39,7 +44,7 @@ function* render(body: () => Prog): Prog {
     let states = createStates();
     while (true) {
       yield shift(function* (k) {
-        states.reset(k);
+        states.begin(k);
         return (yield reset(function*() {
           let result = yield *body();
           return () => result;
@@ -50,8 +55,8 @@ function* render(body: () => Prog): Prog {
 }
 
 interface States {
-  getOrCreate<T>(initial: T): Cell<T>;
-  reset(rerender: () => any): void
+  alloc<T>(initial: T): Cell<T>;
+  begin(rerender: () => any): void
 }
 interface Cell<T> {
   get(): T;
@@ -63,11 +68,11 @@ function createStates(): States {
   let currentIdx = -1;
   let render = () => { };
   return {
-    reset: (rerender) => {
+    begin: (rerender) => {
       currentIdx = -1;
       render = rerender;
     },
-    getOrCreate<T>(initial: T): Cell<T> {
+    alloc<T>(initial: T): Cell<T> {
       if (++currentIdx + 1 > states.length) {
         let value: T = initial;
         states.push({
