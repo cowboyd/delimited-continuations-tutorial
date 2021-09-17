@@ -52,9 +52,7 @@ export function createFuture<T>(): NewFuture<T> {
 
     return {
       future: {
-        get state() {
-          return value ? value.state : 'pending';
-        },
+        get state() { return value ? value.state : 'pending'; },
         consume
       },
       produce,

@@ -6,14 +6,14 @@ import { reset, shift, reduce } from './src';
 // (let ((k (reset (* 5 (+ (shift k k) (* 3 4))))))
 //  (k 2))
 
-let k = reduce(function*() {
-  return yield reset(function*() {
+reduce(function*() {
+  let k = yield reset(function*() {
     let $ =  yield shift(function*(k) { return k; });
     return 5 * ($ + 3 * 4);
   });
+  console.log(k(2));
 });
 
-console.log(k(2));
 
 
 // ;; 5.2
