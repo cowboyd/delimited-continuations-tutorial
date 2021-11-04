@@ -7,6 +7,10 @@ Asai laboratory at Ochanomizu University. Because I could not actually
 find a way to install OchaOCaml, all of the coding exercises are
 implemented in [Racket][racket].
 
+> Update: TypeScript solutions! I was able to successfully translate 
+> the solutions into TypeScript, and so each exercise now has a TypeScript
+> solution.
+
 There are some key differences in a Racket implementation however.
 
 ### Dynamic Typing
